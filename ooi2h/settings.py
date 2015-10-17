@@ -25,6 +25,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+APPEND_SLASH = False
 ROOT_URLCONF = 'ooi2h.urls'
 TEMPLATES = [
     {

@@ -1,0 +1,14 @@
+body {
+  padding-top: 50px;
+  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+}
+footer {
+  font-size: 12px;
+}
+
+.navbar-inverse .navbar-brand {
+  color: rgb(255, 255, 255);
+}
+.indent p {
+  text-indent: 2em;
+}

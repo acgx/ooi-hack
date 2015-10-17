@@ -29,8 +29,8 @@ class OUserManager(BaseUserManager):
 
 
 class OUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField('用户昵称', max_length=20, unique=True, db_index=True,
-                                help_text='用户昵称可由英文字母、数字、汉字或假名组成，长度不超过20',
+    username = models.CharField('用户名', max_length=20, unique=True, db_index=True,
+                                help_text='用户名可由英文字母、数字、汉字或假名组成，长度不超过20',
                                 validators=[
                                     validators.RegexValidator(re.compile('^[\\w\\d\u2e80-\u9fff]{2,}$'),
                                                               '请输入至少两个字母、数字、汉字或假名', 'invalid')

@@ -1,13 +1,13 @@
 {% extends 'common.html' %}
 
-{% block title %}OOI社区 - 首页{% endblock %}
+{% block title %}首页{% endblock %}
 
 {% block job %}
   <div class="jumbotron">
     <div class="container">
       <h2>OOI社区</h2>
       <p>OOI社区一个以舰娘玩家为核心的网络社区，在这里可以讨论和分享各种舰娘有关的话题</p>
-      <p><a class="btn btn-primary btn-lg" href="" role="button">登录</a> <a class="btn btn-primary btn-lg" href="" role="button">注册</a></p>
+      <p><a class="btn btn-primary btn-lg" href="" role="button">登录</a> <a class="btn btn-primary btn-lg" href="{% url 'user-register' %}" role="button">注册</a></p>
     </div>
   </div>
   <div class="container">

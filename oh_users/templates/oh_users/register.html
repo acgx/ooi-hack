@@ -1,0 +1,27 @@
+{% extends 'common.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}用户注册{% endblock %}
+
+{% block job %}
+  <div class="container content">
+    <div class="row">
+      {% crispy form form.helper %}
+    </div>
+  </div>
+  <script>
+  $(function() {
+      $('img.captcha').after($('<a class="captcha-refresh">刷新</a>'));
+      $('.captcha-refresh').click(function(){
+          var $form = $(this).parents('form');
+          var url = location.protocol + "//" + window.location.hostname + ":"
+                    + location.port + "/captcha/refresh/";
+          $.getJSON(url, {}, function(json) {
+              $form.find('input[name="captcha_0"]').val(json.key);
+              $form.find('img.captcha').attr('src', json.image_url);
+          });
+          return false;
+      });
+  });
+  </script>
+{% endblock %}

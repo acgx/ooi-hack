@@ -12,6 +12,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
+    'crispy_forms',
     'oh_pages',
     'oh_users',
 )
@@ -59,7 +61,7 @@ DATABASES = {
     },
 }
 
-LANGUAGE_CODE = 'zh-hans'
+LANGUAGE_CODE = 'zh-cn'
 TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 USE_L10N = True
@@ -74,3 +76,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 AUTH_USER_MODEL = 'oh_users.OUser'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
+
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = os.environ.get('OH_MAIL_HOST')
+EMAIL_PORT = int(os.environ.get('OH_MAIL_PORT', 465))
+EMAIL_HOST_USER = os.environ.get('OH_MAIL_USER', 'webmaster@ooi.moe')
+EMAIL_HOST_PASSWORD = os.environ.get('OH_MAIL_PASSWORD')

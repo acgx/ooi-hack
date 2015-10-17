@@ -59,5 +59,6 @@ target/
 # PyCharm
 .idea/
 
-# Customize
-customize/
+# Django migrations
+*/migrations/*
+!*/migrations/__init__.py

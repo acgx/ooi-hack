@@ -1,0 +1,20 @@
+{% extends 'common.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block job %}
+  <div class="container content">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="alert alert-warning message">
+          <h3><strong>{{ title }}</strong></h3>
+          <p>{{ message }}</p>
+          <p>
+            <a href="javascript:history.back()" class="btn btn-primary" role="button">后退</a>
+            <a href="{% url "index" %}" class="btn btn-primary" role="button">返回首页</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

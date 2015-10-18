@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic import View, TemplateView
 from django.views.generic.edit import FormView
 from django.template.response import TemplateResponse
+from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 
 from . import models
@@ -13,6 +14,14 @@ class Register(FormView):
     form_class = forms.RegisterForm
     template_name = 'oh_users/register.html'
     success_url = reverse_lazy('user-register-done')
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            context = {'title': '用户注册错误',
+                       'message': '您已经是OOI社区的用户了，不需要再注册新的用户。'}
+            return TemplateResponse(request, 'warning.html', context)
+        else:
+            return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.create_user()
@@ -50,6 +59,12 @@ class Login(FormView):
     form_class = forms.LoginForm
     template_name = 'oh_users/login.html'
     success_url = settings.LOGIN_REDIRECT_URL
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return redirect(settings.LOGIN_REDIRECT_URL)
+        else:
+            return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         username = form.cleaned_data['username']

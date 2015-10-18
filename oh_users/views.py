@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login
 
 from . import models
 from . import forms
+from .mixins import LoginRequiredMixin
 
 
 class Register(FormView):
@@ -75,3 +76,18 @@ class Login(FormView):
         if next_url:
             self.success_url = next_url
         return super().form_valid(form)
+
+
+class PasswordModify(LoginRequiredMixin, FormView):
+    form_class = forms.PasswordModifyForm
+    template_name = 'oh_users/password_modify.html'
+    success_url = settings.LOGIN_REDIRECT_URL
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def form_valid(self, form):
+        form.modify_password()
+        return super().form_invalid(form)

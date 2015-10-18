@@ -20,7 +20,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
           <ul class="dropdown-menu narrow-dropdown-menu">
             <li><a href="#">修改头像</a></li>
-            <li><a href="#">修改密码</a></li>
+            <li><a href="{% url 'user-password-modify' %}">修改密码</a></li>
             <li><a href="{% url 'user-logout' %}">退出登录</a></li>
           </ul>
         </li>

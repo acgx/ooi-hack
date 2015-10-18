@@ -116,3 +116,45 @@ class LoginForm(forms.Form):
         helper.label_class = 'col-md-2'
         helper.field_class = 'col-md-4'
         return helper
+
+
+class PasswordModifyForm(forms.Form):
+    old_password = forms.CharField(max_length=20, min_length=8, label='旧密码', widget=forms.PasswordInput)
+    new_password = forms.CharField(max_length=20, min_length=8, label='新密码', widget=forms.PasswordInput)
+    confirmed_password = forms.CharField(max_length=20, min_length=8, label='确认密码', widget=forms.PasswordInput)
+
+    error_messages = {
+        'invalid_old_password': '旧密码错误',
+        'new_password_mismatch': '两次输入的密码不匹配',
+    }
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data['old_password']
+        if self.request.user.check_password(old_password):
+            return old_password
+        raise forms.ValidationError(self.error_messages['invalid_old_password'])
+
+    def clean_confirmed_password(self):
+        new_password = self.cleaned_data['new_password']
+        confirmed_password = self.cleaned_data['confirmed_password']
+        if new_password == confirmed_password:
+            return confirmed_password
+        else:
+            raise forms.ValidationError(self.error_messages['new_password_mismatch'])
+
+    def modify_password(self):
+        self.request.user.set_password(self.cleaned_data['new_password'])
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_method = 'POST'
+        helper.add_input(Submit('submit', '修改'))
+        helper.form_class = 'form-horizontal'
+        helper.label_class = 'col-md-2'
+        helper.field_class = 'col-md-4'
+        return helper

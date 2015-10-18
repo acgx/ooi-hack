@@ -2,6 +2,7 @@ import uuid
 
 from django import forms
 from django.core.mail import send_mail
+from django.contrib.auth import authenticate
 from captcha.fields import CaptchaField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -71,4 +72,47 @@ class RegisterForm(forms.Form):
         helper.form_class = 'form-horizontal'
         helper.label_class = 'col-md-2'
         helper.field_class = 'col-md-7'
+        return helper
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=20, min_length=2, label='用户名')
+    password = forms.CharField(max_length=20, min_length=8, label='密码', widget=forms.PasswordInput)
+    captcha = CaptchaField(label='认证码')
+
+    error_messages = {
+        'empty_username': '用户名不能为空',
+        'invalid_username': '无效的用户名',
+        'empty_password': '密码不能为空',
+        'invalid_password': '密码错误',
+    }
+
+    def clean_username(self):
+        username = self.cleaned_data['username'].strip()
+        if username:
+            try:
+                OUser.objects.get(username=username)
+            except OUser.DoesNotExist:
+                raise forms.ValidationError(self.error_messages['invalid_username'])
+        else:
+            raise forms.ValidationError(self.error_messages['invalid_username'])
+        return username
+
+    def clean_password(self):
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise forms.ValidationError(self.error_messages['invalid_password'])
+        else:
+            return password
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_method = 'POST'
+        helper.add_input(Submit('submit', '登录'))
+        helper.form_class = 'form-horizontal'
+        helper.label_class = 'col-md-2'
+        helper.field_class = 'col-md-4'
         return helper

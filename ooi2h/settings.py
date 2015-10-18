@@ -74,7 +74,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 AUTH_USER_MODEL = 'oh_users.OUser'
-LOGIN_URL = '/login/'
+LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = '/home/'
 
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'

@@ -1,0 +1,20 @@
+{% extends 'common.html' %}
+
+{% block title %}退出登录成功{% endblock %}
+
+{% block job %}
+  <div class="container content">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="alert alert-success message">
+          <h3><strong>退出登录成功</strong></h3>
+          <p>您已成功从OOI社区退出登录。</p>
+          <p>
+            <a href="{% url "index" %}" class="btn btn-primary" role="button">返回首页</a>
+            <a href="{% url "user-login" %}" class="btn btn-primary" role="button">重新登录</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

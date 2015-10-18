@@ -1,5 +1,7 @@
-from django.views.generic import View
-from django.shortcuts import render
+from django.views.generic import View, TemplateView
+from django.template.response import TemplateResponse
+
+from oh_users.mixins import LoginRequiredMixin
 
 
 class Index(View):
@@ -7,4 +9,8 @@ class Index(View):
         if self.request.user.is_authenticated():
             pass
         else:
-            return render(self.request, 'oh_pages/index.html')
+            return TemplateResponse(self.request, 'oh_pages/index.html')
+
+
+class Home(LoginRequiredMixin, TemplateView):
+    template_name = 'oh_pages/home.html'

@@ -10,6 +10,9 @@ img.captcha {
   margin-right: 1em;
 }
 
+.narrow-dropdown-menu {
+  min-width: 128px !important;
+}
 .navbar-inverse .navbar-brand {
   color: rgb(255, 255, 255);
 }

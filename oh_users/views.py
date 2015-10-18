@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import View, TemplateView
 from django.views.generic.edit import FormView
-from django.shortcuts import render
+from django.template.response import TemplateResponse
+from django.contrib.auth import authenticate, login
 
 from . import models
 from . import forms
@@ -14,6 +16,7 @@ class Register(FormView):
 
     def form_valid(self, form):
         form.create_user()
+        return super().form_invalid(form)
 
 
 class RegisterDone(TemplateView):
@@ -40,4 +43,20 @@ class Verify(View):
         except models.OUserEmailVerification.DoesNotExist:
             context = {'title': '邮箱验证失败',
                        'message': '在我们的数据库中找不到匹配的邮箱验证码。'}
-        return render(self.request, 'success.html', context=context)
+        return TemplateResponse(self.request, 'success.html', context=context)
+
+
+class Login(FormView):
+    form_class = forms.LoginForm
+    template_name = 'oh_users/login.html'
+    success_url = settings.LOGIN_URL
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        login(self.request, user)
+        next_url = self.request.GET.get('next')
+        if next_url:
+            self.success_url = next_url
+        return super().form_valid(form)

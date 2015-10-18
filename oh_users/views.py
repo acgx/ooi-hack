@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import View, TemplateView
+from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect
@@ -26,17 +26,9 @@ class Register(FormView):
 
     def form_valid(self, form):
         form.create_user()
-        return super().form_invalid(form)
-
-
-class RegisterDone(TemplateView):
-    template_name = 'message.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({'title': '用户注册完成',
-                        'message': '注册OOI社区用户成功，请前往您的邮箱查收邮件并验证您的账号。'})
-        return context
+        return TemplateResponse(self.request, 'success.html',
+                                {'title': '用户注册完成',
+                                 'message': '注册OOI社区用户成功，请前往您的邮箱查收邮件并验证您的账号。'})
 
 
 class Verify(View):
@@ -67,14 +59,18 @@ class Login(FormView):
         else:
             return super().get(request, *args, **kwargs)
 
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return self.success_url
+
     def form_valid(self, form):
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
         user = authenticate(username=username, password=password)
         login(self.request, user)
-        next_url = self.request.GET.get('next')
-        if next_url:
-            self.success_url = next_url
         return super().form_valid(form)
 
 
@@ -90,4 +86,6 @@ class PasswordModify(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         form.modify_password()
-        return super().form_invalid(form)
+        return TemplateResponse(self.request, 'success.html',
+                                {'title': '修改密码成功',
+                                 'message': '您的密码已成功修改，请使用新密码重新登录。'})

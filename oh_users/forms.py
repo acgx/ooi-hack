@@ -148,6 +148,7 @@ class PasswordModifyForm(forms.Form):
 
     def modify_password(self):
         self.request.user.set_password(self.cleaned_data['new_password'])
+        self.request.user.save()
 
     @property
     def helper(self):

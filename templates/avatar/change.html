@@ -1,0 +1,37 @@
+{% extends "common.html" %}
+{% load i18n avatar_tags %}
+{% load url from future %}
+
+{% block job %}
+  <div class="container content">
+    <div class="row">
+      <div class="col-md-4">
+        <p>{% trans "Your current avatar: " %}</p>
+        {% avatar user %}
+      </div>
+      <div class="col-md-8 avatar-primary">
+      {% if not avatars %}
+        <p>{% trans "You haven't uploaded an avatar yet. Please upload one now." %}</p>
+        <a href="{% url 'avatar_add' %}" class="btn btn-primary" role="button">上传新头像</a>
+      {% else %}
+        <form method="POST" action="{% url 'avatar_change' %}">
+          {% csrf_token %}
+          {% if primary_avatar_form.non_field_errors %}<div class="alert alert-danger">{{ primary_avatar_form.non_field_errors }}</div>{% endif %}
+          <div id="div_{{ primary_avatar_form.choice.id_for_label }}" class="form-group">
+            <label for="{{ primary_avatar_form.choice.id_for_label }}" class="control-label requiredField">从已上传的头像图片中选择一个作为默认头像<span class="asteriskField">*</span></label>
+            <div class="controls">
+              {{ primary_avatar_form.choice }}
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <input type="submit" name="submit" value="选择默认" class="btn btn-primary" id="submit-id-submit">
+            <a href="{% url 'avatar_add' %}" class="btn btn-default" role="button">上传新头像</a>
+            <a href="{% url 'avatar_delete' %}" class="btn btn-default" role="button">删除头像</a>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "common.html" %}
+{% load i18n avatar_tags %}
+{% load url from future %}
+
+{% block job %}
+  <div class="container content">
+    <div class="row avatar-upload">
+      <div class="col-md-4">
+        <p>{% trans "Your current avatar: " %}</p>
+        {% avatar user %}
+      </div>
+      <div class="col-md-8">
+        <form enctype="multipart/form-data" method="POST" action="{% url 'avatar_add' %}">
+          {% csrf_token %}
+          {% if upload_avatar_form.non_field_errors %}<div class="alert alert-danger">{{ upload_avatar_form.non_field_errors }}</div>{% endif %}
+          <div id="div_{{ upload_avatar_form.avatar.id_for_label }}" class="form-group">
+            <label for="{{ upload_avatar_form.avatar.id_for_label }}" class="control-label requiredField">上传一个新的头像<span class="asteriskField">*</span></label>
+            <div class="controls">{{ upload_avatar_form.avatar }}</div>
+          </div>
+          <div class="form-actions">
+            <input type="submit" name="submit" value="上传新头像" class="btn btn-primary" id="submit-id-submit">
+            <a href="{% url 'avatar_change' %}" class="btn btn-default" role="button">选择默认头像</a>
+            <a href="{% url 'avatar_delete' %}" class="btn btn-default" role="button">删除头像</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

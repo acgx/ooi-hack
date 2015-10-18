@@ -1,0 +1,33 @@
+{% extends "common.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block job %}
+  <div class="container content">
+    <div class="row">
+      <div class="col-md-8 avatar-primary">
+        {% if not avatars %}
+          {% url 'avatar_change' as avatar_change_url %}
+          <p>{% blocktrans %}You have no avatars to delete. Please <a href="{{ avatar_change_url }}">upload one</a> now.{% endblocktrans %}</p>
+        {% else %}
+          <form method="POST" action="{% url 'avatar_delete' %}">
+            {% csrf_token %}
+            {% if delete_avatar_form.non_field_errors %}<div class="alert alert-danger">{{ delete_avatar_form.non_field_errors }}</div>{% endif %}
+            <div id="div_{{ delete_avatar_form.choices.id_for_label }}" class="form-group">
+              <label for="{{ delete_avatar_form.choices.id_for_label }}" class="control-label requiredField">选择需要删除的头像图片<span class="asteriskField">*</span></label>
+              <div class="controls">
+                {{ delete_avatar_form.choices }}
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <input type="submit" name="submit" value="删除头像" class="btn btn-primary" id="submit-id-submit">
+              <a href="{% url 'avatar_change' %}" class="btn btn-default" role="button">选择默认头像</a>
+              <a href="{% url 'avatar_add' %}" class="btn btn-default" role="button">上传新头像</a>
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

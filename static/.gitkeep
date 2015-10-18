@@ -62,7 +62,3 @@ target/
 # Django migrations
 */migrations/*
 !*/migrations/__init__.py
-
-# Static & media files
-static/
-media/

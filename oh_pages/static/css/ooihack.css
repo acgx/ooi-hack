@@ -9,6 +9,9 @@ footer {
 img.captcha {
   margin-right: 1em;
 }
+img.avatar-nav {
+  height: 18px;
+}
 
 .narrow-dropdown-menu {
   min-width: 128px !important;
@@ -29,4 +32,27 @@ img.captcha {
 .message p {
   margin-top: 1em;
   margin-bottom: 1em;
+}
+.avatar-upload {
+  padding-bottom: 10em;
+}
+.avatar-primary {
+  padding-bottom: 10em;
+}
+.avatar-primary #id_choice, .avatar-primary #id_choices {
+  padding-left: 0;
+}
+.avatar-primary li {
+  width: 90px;
+  height: 110px;
+  display: block;
+  text-align: center;
+  float: left;
+}
+.avatar-primary li label {
+  display: block;
+}
+.avatar-primary li label input {
+  display: block;
+  margin: 0 auto 4px auto;
 }

@@ -12,6 +12,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'avatar',
     'captcha',
     'crispy_forms',
     'oh_pages',
@@ -76,6 +77,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 AUTH_USER_MODEL = 'oh_users.OUser'
 LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = '/home'
+AVATAR_GRAVATAR_BACKUP = False
+AVATAR_DEFAULT_URL = 'img/avatar.png'
 
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_HOST = os.environ.get('OH_MAIL_HOST')

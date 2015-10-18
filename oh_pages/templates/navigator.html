@@ -1,3 +1,5 @@
+{% load i18n avatar_tags %}
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -17,9 +19,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% avatar_url user %}" class="avatar-nav"> {{ user.username }} <span class="caret"></span></a>
           <ul class="dropdown-menu narrow-dropdown-menu">
-            <li><a href="#">修改头像</a></li>
+            <li><a href="{% url 'avatar_change' %}">修改头像</a></li>
             <li><a href="{% url 'user-password-modify' %}">修改密码</a></li>
             <li><a href="{% url 'user-logout' %}">退出登录</a></li>
           </ul>

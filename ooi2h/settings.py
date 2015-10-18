@@ -75,7 +75,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 AUTH_USER_MODEL = 'oh_users.OUser'
 LOGIN_URL = '/user/login'
-LOGIN_REDIRECT_URL = '/home/'
+LOGIN_REDIRECT_URL = '/home'
 
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_HOST = os.environ.get('OH_MAIL_HOST')

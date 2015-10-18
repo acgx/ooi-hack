@@ -49,7 +49,7 @@ class Verify(View):
 class Login(FormView):
     form_class = forms.LoginForm
     template_name = 'oh_users/login.html'
-    success_url = settings.LOGIN_URL
+    success_url = settings.LOGIN_REDIRECT_URL
 
     def form_valid(self, form):
         username = form.cleaned_data['username']

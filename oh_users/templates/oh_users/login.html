@@ -8,6 +8,10 @@
     <div class="row">
       {% crispy form form.helper %}
     </div>
+    <div class="clearfix"></div>
+    <div class="col-md-4 col-md-offset-2">
+      <p><a href="{% url 'user-password-retrieve' %}">忘记密码？</a></p>
+    </div>
   </div>
   <script>
   $(function() {

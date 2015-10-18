@@ -18,9 +18,9 @@ class Register(FormView):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
-            context = {'title': '用户注册错误',
-                       'message': '您已经是OOI社区的用户了，不需要再注册新的用户。'}
-            return TemplateResponse(request, 'warning.html', context)
+            return TemplateResponse(request, 'warning.html',
+                                    {'title': '用户注册错误',
+                                     'message': '您已经是OOI社区的用户了，不需要再注册新的用户。'})
         else:
             return super().get(request, *args, **kwargs)
 
@@ -40,12 +40,13 @@ class Verify(View):
             user.is_active = True
             user.save()
             verify.delete()
-            context = {'title': '邮箱验证成功',
-                       'message': '您邮箱已验证成功，请返回首页登录OOI社区享受生活。'}
+            return TemplateResponse(self.request, 'success.html',
+                                    {'title': '邮箱验证成功',
+                                     'message': '您邮箱已验证成功，请返回首页登录OOI社区享受生活。'})
         except models.OUserEmailVerification.DoesNotExist:
-            context = {'title': '邮箱验证失败',
-                       'message': '在我们的数据库中找不到匹配的邮箱验证码。'}
-        return TemplateResponse(self.request, 'success.html', context=context)
+            return TemplateResponse(self.request, 'warning.html',
+                                    {'title': '邮箱验证失败',
+                                     'message': '在我们的数据库中找不到匹配的邮箱验证码。'})
 
 
 class Login(FormView):
@@ -89,3 +90,40 @@ class PasswordModify(LoginRequiredMixin, FormView):
         return TemplateResponse(self.request, 'success.html',
                                 {'title': '修改密码成功',
                                  'message': '您的密码已成功修改，请使用新密码重新登录。'})
+
+
+class PasswordRetrieve(FormView):
+    form_class = forms.PasswordRetrieveForm
+    template_name = 'oh_users/password_retrieve.html'
+
+    def form_valid(self, form):
+        form.retrieve()
+        return TemplateResponse(self.request, 'success.html',
+                                {'title': '找回密码成功',
+                                 'message': '指导您找回密码的邮件已发送到您的邮箱，请前往您的邮箱查收邮件并按提示进行操作。'})
+
+
+class PasswordReset(FormView):
+    form_class = forms.PasswordResetForm
+    template_name = 'oh_users/password_reset.html'
+
+    def get(self, request, *args, **kwargs):
+        code = self.kwargs['code']
+        try:
+            reset = models.OUserPasswordReset.objects.get(code=code)
+            form = self.get_form()
+            return TemplateResponse(request, self.template_name, {'username': reset.user.username, 'form': form})
+        except models.OUserPasswordReset.DoesNotExist:
+            return TemplateResponse(request, 'warning.html',
+                                    {'title': '重置密码失败',
+                                     'message': '在我们的数据库中找不到这个重置密码请求。'})
+
+    def form_valid(self, form):
+        code = self.kwargs['code']
+        reset = models.OUserPasswordReset.objects.get(code=code)
+        reset.user.set_password(form.cleaned_data['password'])
+        reset.user.save()
+        reset.delete()
+        return TemplateResponse(self.request, 'success.html',
+                                {'title': '重置密码成功',
+                                 'message': '您的密码已成功重置，请使用新密码重新登录。'})

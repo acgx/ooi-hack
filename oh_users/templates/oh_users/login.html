@@ -9,9 +9,6 @@
       {% crispy form form.helper %}
     </div>
     <div class="clearfix"></div>
-    <div class="col-md-4 col-md-offset-2">
-      <p><a href="{% url 'user-password-retrieve' %}">忘记密码？</a></p>
-    </div>
   </div>
   <script>
   $(function() {
@@ -26,6 +23,7 @@
           });
           return false;
       });
+      $('#submit-id-submit').after(' <a href="{% url 'user-password-retrieve' %}" class="btn btn-primary" role="button">忘记密码</a>')
   });
   </script>
 {% endblock %}

@@ -64,5 +64,5 @@ target/
 !*/migrations/__init__.py
 
 # Static & media files
-static/
-media/
+/static/
+/media/

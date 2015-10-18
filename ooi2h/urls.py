@@ -11,7 +11,7 @@ import oh_users.urls
 
 urlpatterns = [
     url(r'^$', oh_pages.views.Index.as_view(), name='index'),
-    url(r'^home$', oh_pages.views.Home.as_view(), name='home'),
+    url(r'^home$', oh_pages.views.Home.as_view(), {'module': 'home'}, name='home'),
     url(r'^user/', include(oh_users.urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^avatar/', include(avatar.urls)),

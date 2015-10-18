@@ -1,9 +1,11 @@
-{% extends 'common.html' %}
+{% extends '2columns.html' %}
 
 {% block title %}首页{% endblock %}
 
-{% block job %}
-  <div class="container content">
-    <p>Hello {{ user.username }}</p>
-  </div>
+{% block main %}
+  <p>Hello OOI!</p>
+{% endblock %}
+
+{% block sidebar %}
+  {% include 'sidebar_profile.html' %}
 {% endblock %}

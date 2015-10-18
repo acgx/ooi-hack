@@ -1,0 +1,14 @@
+{% extends 'common.html' %}
+
+{% block job %}
+  <div class="container content">
+    <div class="row">
+      <div class="col-md-10">
+        {% block main %}{% endblock %}
+      </div>
+      <div class="col-md-2">
+        {% block sidebar %}{% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

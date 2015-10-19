@@ -14,7 +14,7 @@
     {% if user.is_authenticated %}
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li{% ifequal module 'home' %} class="active"{% endifequal %}><a href="#">主页</a></li>
+        <li{% ifequal module 'home' %} class="active"{% endifequal %}><a href="{% url 'home' %}">主页</a></li>
         <li{% ifequal module 'mod' %} class="active"{% endifequal %}><a href="#">魔改集市</a></li>
         <li{% ifequal module 'discussion' %} class="active"{% endifequal %}><a href="#">讨论区</a></li>
         <li><a href="http://ooi.moe">OOI系统</a></li>

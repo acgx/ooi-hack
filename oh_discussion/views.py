@@ -30,9 +30,10 @@ class TopicList(ODiscussionMixin, ListView):
         return context
 
 
-class Topic(ODiscussionMixin, DetailView):
+class Topic(ODiscussionMixin, SimditorMixin, DetailView):
     context_object_name = 'topic'
     template_name = 'oh_discussion/topic_detail.html'
+    _topic = None
 
     def get_queryset(self):
         return models.OTopic.objects.filter(is_visible=True)
@@ -41,7 +42,15 @@ class Topic(ODiscussionMixin, DetailView):
         topic = super().get_object(queryset)
         topic.clicks += 1
         topic.save(update_fields=['clicks'])
+        self._topic = topic
         return topic
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = forms.TopicReplyForm(initial={'topic': self._topic, 'author': self.request.user})
+        form.helper.form_action = 'qqq'
+        context['form'] = form
+        return context
 
 
 class TopicCreate(ODiscussionMixin, SimditorMixin, CreateView):
@@ -68,3 +77,14 @@ class TopicUpdate(ODiscussionMixin, SimditorMixin, UpdateView):
             return super().get(request, *args, **kwargs)
         else:
             raise PermissionDenied
+
+
+class ReplyCreate(ODiscussionMixin, CreateView):
+    model = models.OReply
+    form_class = forms.TopicReplyForm
+    template_name = 'oh_discussion/reply_create.html'
+
+    def form_valid(self, form):
+        form.save()
+        topic = form.cleaned_data['topic']
+        return HttpResponseRedirect(topic.get_absolute_url())

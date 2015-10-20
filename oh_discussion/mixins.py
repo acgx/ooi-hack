@@ -17,5 +17,6 @@ class SimditorMixin():
         context['extra_js'] = ('js/simditor/module.min.js',
                                'js/simditor/hotkeys.min.js',
                                'js/simditor/simditor.min.js',
+                               'js/simditor/settings.js',
                                )
         return context

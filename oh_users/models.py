@@ -42,6 +42,7 @@ class OUser(AbstractBaseUser, PermissionsMixin):
     register_time = models.DateTimeField('用户注册时间', default=timezone.now)
 
     topics = models.PositiveIntegerField('发布主题数', default=0)
+    replies = models.PositiveIntegerField('发表回复数', default=0)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']

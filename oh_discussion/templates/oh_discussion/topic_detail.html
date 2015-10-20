@@ -1,5 +1,5 @@
 {% extends 'oh_discussion/base.html' %}
-{% load i18n avatar_tags oh_tags %}
+{% load i18n avatar_tags crispy_forms_tags oh_tags %}
 
 {% block title %}{{ topic.title }}{% endblock %}
 
@@ -13,5 +13,24 @@
     {% ifequal user topic.author %}<p><a href="{% url 'discussion-topic-update' pk=topic.pk %}" class="btn btn-primary" role="button">修改主题内容</a></p>{% endifequal %}
     <hr class="discussion-topic-spacer clearfix">
     <div>{{ topic.content|xss_safe }}</div>
+    {% ifnotequal topic.create_time topic.update_time %}<p class="alert alert-info">作者于 {{ topic.update_time|date:"Y-n-j G:i" }} 修改了主题内容</p>{% endifnotequal %}
+  </div>
+  <hr>
+  <div class="discussion-reply">
+    {% for r in topic.replies.all %}
+      <div class="discussion-reply-entity">
+        <p><img src="{% avatar_url r.author %}" class="avatar-reply"> {{ r.author.username }} 于 {{ r.create_time|date:"Y-n-j G:i" }} 发表回复：</p>
+        <div class="discussion-reply-content">
+          {{ r.content|xss_safe }}
+        </div>
+        {% if not forloop.last %}<hr class="discussion-topic-spacer">{% endif %}
+      </div>
+    {% empty %}
+      <p>当前主题还没有回复。</p>
+    {% endfor %}
+    <hr class="discussion-topic-spacer">
+    <div class="discussion-reply-form">
+      {% crispy form %}
+    </div>
   </div>
 {% endblock %}

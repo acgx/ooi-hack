@@ -33,7 +33,8 @@ class OTopic(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者')
     node = models.ForeignKey(ONode, verbose_name='所属节点')
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
-    revise_time = models.DateTimeField('修改时间', auto_now=True)
+    update_time = models.DateTimeField('修改时间', auto_now=True)
+    revise_time = models.DateTimeField('最后更新时间', auto_now=True)
     is_visible = models.BooleanField('是否可见', default=True)
     clicks = models.PositiveIntegerField('点击次数', default=0)
     content = models.TextField('内容', max_length=50000, help_text='不超过50000字')
@@ -50,6 +51,21 @@ class OTopic(models.Model):
         return self.title
 
 
+class OReply(models.Model):
+    topic = models.ForeignKey(OTopic, verbose_name='所属主题', related_name='replies')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者')
+    create_time = models.DateTimeField('创建时间', auto_now_add=True)
+    content = models.TextField('内容', max_length=10000, help_text='不超过10000字')
+
+    class Meta:
+        verbose_name = '讨论区回复'
+        verbose_name_plural = '讨论区回复'
+        ordering = ['-pk']
+
+    def __str__(self):
+        return '%s：%s' % (self.author.username, self.content[:20])
+
+
 @receiver(post_save, sender=OTopic)
 def add_topics(sender, instance, created, **kwargs):
     if created:
@@ -62,4 +78,22 @@ def add_topics(sender, instance, created, **kwargs):
 def minus_topics(sender, instance, **kwargs):
     user = instance.author
     user.topics -= 1
+    user.save()
+
+
+@receiver(post_save, sender=OReply)
+def add_replies(sender, instance, created, **kwargs):
+    if created:
+        user = instance.author
+        user.replies += 1
+        user.save()
+        topic = instance.topic
+        topic.revise_time = timezone.now()
+        topic.save(update_fields=['revise_time'])
+
+
+@receiver(post_delete, sender=OReply)
+def minus_replies(sender, instance, **kwargs):
+    user = instance.author
+    user.replies -= 1
     user.save()

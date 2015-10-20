@@ -18,6 +18,9 @@ img.avatar-topic {
 img.avatar-topic-right {
   width: 48px;
 }
+img.avatar-reply {
+  width: 20px;
+}
 
 .narrow-dropdown-menu {
   min-width: 128px !important;
@@ -116,11 +119,14 @@ ul.discussion-nodes-list-children>li {
 .discussion-topic-node a:hover {
   text-decoration: none;
 }
+.discussion-topic-avatar-right {
+  width: 48px;
+  float: right;
+}
+.discussion-reply-content {
+  padding-left: 1em;
+}
 hr.discussion-topic-spacer {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-}
-.discussion-topic-avatar-right {
-  width: 80px;
-  float: right;
 }

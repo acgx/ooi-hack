@@ -1,4 +1,10 @@
 {% extends '2columns.html' %}
+{% load i18n avatar_tags %}
 
 {% block sidebar %}
+  <div class="discussion-profile">
+    <div>{% avatar user %}</div>
+    <h4>{{ user.username }}</h4>
+    <p>已发布主题数：{{ user.topics }}</p>
+  </div>
 {% endblock %}

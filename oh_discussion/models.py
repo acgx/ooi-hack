@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -46,3 +48,18 @@ class OTopic(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(post_save, sender=OTopic)
+def add_topics(sender, instance, created, **kwargs):
+    if created:
+        user = instance.author
+        user.topics += 1
+        user.save()
+
+
+@receiver(post_delete, sender=OTopic)
+def minus_topics(sender, instance, **kwargs):
+    user = instance.author
+    user.topics -= 1
+    user.save()

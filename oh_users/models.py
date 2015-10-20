@@ -41,6 +41,8 @@ class OUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField('是否为管理用户', default=False)
     register_time = models.DateTimeField('用户注册时间', default=timezone.now)
 
+    topics = models.PositiveIntegerField('发布主题数', default=0)
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
     objects = OUserManager()

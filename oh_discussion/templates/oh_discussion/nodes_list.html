@@ -1,0 +1,21 @@
+{% load mptt_tags %}
+
+<div class="row">
+  <div class="col-md-12 discussion-nodes-list">
+    <hr>
+    <h4><strong>讨论区节点列表</strong></h4>
+    <ul class="discussion-nodes-list-top">
+      {% recursetree nodes %}
+        <li>
+          <a href="{% url 'discussion-node' pk=node.pk %}" title="{{ node.description }}">{{ node.name }}</a>
+          {% if not node.is_leaf_node %}
+            <ul class="discussion-nodes-list-children">
+                {{ children }}
+            </ul>
+          {% endif %}
+        </li>
+      {% endrecursetree %}
+    </ul>
+    <div class="clearfix"></div>
+  </div>
+</div>

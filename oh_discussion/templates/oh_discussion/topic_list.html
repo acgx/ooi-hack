@@ -1,0 +1,49 @@
+{% extends 'oh_discussion/base.html' %}
+{% load i18n avatar_tags %}
+
+{% block title %}讨论区{% endblock %}
+
+{% block main %}
+  <div class="discussion-topic-list">
+    <div class="discussion-node">
+      {% if current_node %}
+        <h3>{{ current_node.name }}</h3>
+        <p>{{ current_node.description }}</p>
+      {% else %}
+        <h3>最新主题</h3>
+      {% endif %}
+      <p><a href="{% url 'discussion-topic-create' %}" class="btn btn-primary" role="button">发布新主题</a></p>
+    </div>
+    <hr>
+    {% for t in topics %}
+      <div class="discussion-topic-entity">
+        <div class="discussion-topic-avatar">
+          <img src="{% avatar_url t.author %}" class="avatar-topic">
+        </div>
+        <div class="discussion-topic-info">
+{#          <h4><a href="{% url 'discussion-topic' pk=t.pk %}">{{ t.title }}</a></h4>#}
+          <h4><a href="{{ t.get_absolute_url }}">{{ t.title }}</a></h4>
+          <p class="discussion-topic-meta">
+            {% if not current_node %}<span class="discussion-topic-node"><a href="{% url 'discussion-node' pk=t.node.pk %}">{{ t.node }}</a></span>{% endif %}
+            <span class="discussion-topic-author">发布者：<a href="#">{{ t.author.username }}</a></span> |
+            <span class="discussion-topic-revise">最后更新于{{ t.revise_time|date:"Y-n-j G:i" }}</span> | 阅读次数：{{ t.clicks }}
+          </p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      {% if not forloop.last %}<hr class="discussion-topic-spacer">{% endif %}
+    {% empty %}
+      <p>当前节点还没有任何主题。</p>
+    {% endfor %}
+    {% if is_paginated %}
+      <div class="pages">
+        <p>共{{ page_obj.paginator.num_pages }}页 当前第{{ page_obj.number }}页
+        <a href="{{ request.META.REQUEST_URL }}?page=1">首页</a>
+        {% if page_obj.has_previous %}<a href="{{ request.META.REQUEST_URL }}?page={{ previous_page_number }}">前一页</a>{% endif %}
+        {% if page_obj.has_next %}<a href="{{ request.META.REQUEST_URL }}?page={{ page_obj.next_page_number }}">后一页</a>{% endif %}
+        <a href="{{ request.META.REQUEST_URL }}?page={{ page_obj.paginator.num_pages }}">尾页</a>
+      </div>
+    {% endif %}
+  </div>
+  {% include 'oh_discussion/nodes_list.html' %}
+{% endblock %}

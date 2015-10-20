@@ -15,8 +15,10 @@ INSTALLED_APPS = (
     'avatar',
     'captcha',
     'crispy_forms',
+    'mptt',
     'oh_pages',
     'oh_users',
+    'oh_discussion',
 )
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

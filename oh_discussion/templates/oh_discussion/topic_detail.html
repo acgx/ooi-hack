@@ -1,0 +1,17 @@
+{% extends 'oh_discussion/base.html' %}
+{% load i18n avatar_tags oh_tags %}
+
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block main %}
+  <div class="discussion-topic">
+    <div class="discussion-topic-avatar-right">
+      <img src="{% avatar_url topic.author %}" class="avatar-topic-right">
+    </div>
+    <h4><strong>{{ topic.title }}</strong></h4>
+    <p>发布者：{{ topic.author.username }} | 发布时间：{{ topic.create_time|date:"Y-n-j G:i" }} | 更新时间：{{ topic.revise_time|date:"Y-n-j G:i" }}</p>
+    {% ifequal user topic.author %}<p><a href="{% url 'discussion-topic-update' pk=topic.pk %}" class="btn btn-primary" role="button">修改主题内容</a></p>{% endifequal %}
+    <hr class="discussion-topic-spacer clearfix">
+    <div>{{ topic.content|xss_safe }}</div>
+  </div>
+{% endblock %}

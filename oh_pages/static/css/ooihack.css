@@ -12,6 +12,12 @@ img.captcha {
 img.avatar-nav {
   height: 18px;
 }
+img.avatar-topic {
+  width: 48px;
+}
+img.avatar-topic-right {
+  width: 48px;
+}
 
 .narrow-dropdown-menu {
   min-width: 128px !important;
@@ -55,4 +61,66 @@ img.avatar-nav {
 .avatar-primary li label input {
   display: block;
   margin: 0 auto 4px auto;
+}
+
+/* Discussion */
+.discussion-nodes-list {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+ul.discussion-nodes-list-top {
+  margin: 0;
+  padding: 0;
+}
+ul.discussion-nodes-list-top>li {
+  display: block;
+  width: 17.5em;
+  margin-right: 0.5em;
+  float: left;
+}
+ul.discussion-nodes-list-children {
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+ul.discussion-nodes-list-children>li {
+  list-style-type: square;
+}
+.discussion-node {
+  margin-top: -1em;
+}
+.discussion-topic-avatar {
+  width: 60px;
+  float: left;
+}
+.discussion-topic-info {
+  line-height: 100%;
+  color: #555;
+}
+.discussion-topic-info h4 {
+  font-weight: bold;
+}
+.discussion-topic-meta {
+  font-size: 12px;
+}
+.discussion-topic-node {
+  display: inline-block;
+  min-width: 10px;
+  padding: 2px 6px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #777;
+}
+.discussion-topic-node a {
+  color: #FFF;
+}
+.discussion-topic-node a:hover {
+  text-decoration: none;
+}
+hr.discussion-topic-spacer {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.discussion-topic-avatar-right {
+  width: 80px;
+  float: right;
 }

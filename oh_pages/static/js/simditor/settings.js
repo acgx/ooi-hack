@@ -21,4 +21,5 @@ $(function() {
       'alignment'
     ]
   });
+  editor.setValue($(id_content).value());
 });

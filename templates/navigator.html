@@ -11,25 +11,27 @@
       </button>
       <a class="navbar-brand" href="{% url 'index' %}">OOI社区</a>
     </div>
-    {% if user.is_authenticated %}
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li{% ifequal module 'home' %} class="active"{% endifequal %}><a href="{% url 'home' %}">主页</a></li>
-        <li{% ifequal module 'mod' %} class="active"{% endifequal %}><a href="#">魔改集市</a></li>
-        <li{% ifequal module 'discussion' %} class="active"{% endifequal %}><a href="{% url 'discussion-index' %}">讨论区</a></li>
+        {% if user.is_authenticated %}
+          <li{% ifequal module 'home' %} class="active"{% endifequal %}><a href="{% url 'home' %}">主页</a></li>
+          <li{% ifequal module 'mod' %} class="active"{% endifequal %}><a href="#">魔改集市</a></li>
+          <li{% ifequal module 'discussion' %} class="active"{% endifequal %}><a href="{% url 'discussion-index' %}">讨论区</a></li>
+        {% endif %}
         <li><a href="http://ooi.moe">OOI系统</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% avatar_url user %}" class="avatar-nav"> {{ user.username }} <span class="caret"></span></a>
-          <ul class="dropdown-menu narrow-dropdown-menu">
-            <li><a href="{% url 'avatar_change' %}">修改头像</a></li>
-            <li><a href="{% url 'user-password-modify' %}">修改密码</a></li>
-            <li><a href="{% url 'user-logout' %}">退出登录</a></li>
-          </ul>
-        </li>
-      </ul>
+      {% if user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% avatar_url user %}" class="avatar-nav"> {{ user.username }} <span class="caret"></span></a>
+            <ul class="dropdown-menu narrow-dropdown-menu">
+              <li><a href="{% url 'avatar_change' %}">修改头像</a></li>
+              <li><a href="{% url 'user-password-modify' %}">修改密码</a></li>
+              <li><a href="{% url 'user-logout' %}">退出登录</a></li>
+            </ul>
+          </li>
+        </ul>
+      {% endif %}
     </div>
-    {% endif %}
   </div>
 </nav>

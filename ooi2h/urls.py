@@ -12,7 +12,7 @@ import oh_discussion.urls
 
 urlpatterns = [
     url(r'^$', oh_pages.views.Index.as_view(), name='index'),
-    url(r'^home$', oh_pages.views.Home.as_view(), {'module': 'home'}, name='home'),
+    url(r'^home/$', oh_pages.views.Home.as_view(), {'module': 'home'}, name='home'),
     url(r'^user/', include(oh_users.urls)),
     url(r'^discussion/', include(oh_discussion.urls)),
     url(r'^admin/', include(admin.site.urls)),

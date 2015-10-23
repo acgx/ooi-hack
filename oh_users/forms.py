@@ -62,7 +62,7 @@ class RegisterForm(forms.Form):
         verfication = OUserEmailVerification.objects.create(user=user, code=uuid.uuid4().hex)
         mail_subject = 'OOI社区用户邮箱验证'
         mail_body = '%s，您好！\n感谢您注册成为OOI社区用户，请用下面的链接激活您的账号：\n\n' + \
-                    'https://hack.ooi.moe/user/verify/%s\n\n本邮件由系统自动发送，请勿回复'
+                    'https://hack.ooi.moe/user/verify/%s/\n\n本邮件由系统自动发送，请勿回复'
         mail_from = 'webmaster@ooi.moe'
         mail_to = [user.email, ]
         send_mail(mail_subject, mail_body % (user.username, verfication.code), mail_from, mail_to)
@@ -200,7 +200,7 @@ class PasswordRetrieveForm(forms.Form):
         reset = OUserPasswordReset.objects.create(user=user, code=uuid.uuid4().hex)
         mail_subject = 'OOI社区用户密码找回'
         mail_body = '%s，您好！\n感谢您注册成为OOI社区用户，请用下面的链接找回您的密码：\n\n' + \
-                    'https://hack.ooi.moe/user/password/reset/%s\n\n本邮件由系统自动发送，请勿回复'
+                    'https://hack.ooi.moe/user/password/reset/%s/\n\n本邮件由系统自动发送，请勿回复'
         mail_from = 'webmaster@ooi.moe'
         mail_to = [user.email, ]
         send_mail(mail_subject, mail_body % (user.username, reset.code), mail_from, mail_to)

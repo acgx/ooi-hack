@@ -30,7 +30,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
-APPEND_SLASH = False
+APPEND_SLASH = True
 ROOT_URLCONF = 'ooi2h.urls'
 TEMPLATES = [
     {
@@ -77,8 +77,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 AUTH_USER_MODEL = 'oh_users.OUser'
-LOGIN_URL = '/user/login'
-LOGIN_REDIRECT_URL = '/home'
+LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/home/'
 AVATAR_GRAVATAR_BACKUP = False
 AVATAR_DEFAULT_URL = 'img/avatar.png'
 

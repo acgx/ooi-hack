@@ -18,6 +18,7 @@
   <hr>
   <div class="discussion-reply">
     {% for r in topic.replies.all %}
+      {% if r.is_visible %}
       <div class="discussion-reply-entity">
         <p><img src="{% avatar_url r.author %}" class="avatar-reply"> {{ r.author.username }} 于 {{ r.create_time|date:"Y-n-j G:i" }} 发表回复：</p>
         <div class="discussion-reply-content">
@@ -25,6 +26,7 @@
         </div>
         {% if not forloop.last %}<hr class="discussion-topic-spacer">{% endif %}
       </div>
+      {% endif %}
     {% empty %}
       <p>当前主题还没有回复。</p>
     {% endfor %}

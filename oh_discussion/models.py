@@ -55,6 +55,7 @@ class OReply(models.Model):
     topic = models.ForeignKey(OTopic, verbose_name='所属主题', related_name='replies')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者')
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
+    is_visible = models.BooleanField('是否可见', default=True)
     content = models.TextField('内容', max_length=10000, help_text='不超过10000字')
 
     class Meta:

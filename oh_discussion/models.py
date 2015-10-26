@@ -28,6 +28,24 @@ class ONode(MPTTModel):
         return self.name
 
 
+class StickyTopics(models.Manager):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_sticky=True).order_by('sticky_order')
+
+
+class NonStickyTopics(models.Manager):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_sticky=False)
+
+
+class NonStickyVisibleTopics(models.Manager):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_sticky=False, is_visible=True)
+
+
 class OTopic(models.Model):
     title = models.CharField('标题', max_length=40, help_text='不超过40字')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者')
@@ -41,6 +59,11 @@ class OTopic(models.Model):
     is_visible = models.BooleanField('是否可见', default=True)
     clicks = models.PositiveIntegerField('点击次数', default=0)
     content = models.TextField('内容', max_length=50000, help_text='不超过50000字')
+
+    objects = models.Manager()
+    sticky = StickyTopics()
+    none_sticky = NonStickyTopics()
+    visible = NonStickyVisibleTopics()
 
     class Meta:
         verbose_name = '讨论区主题'
